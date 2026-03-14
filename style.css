@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@700;800&display=swap");
 
+/* Shared color and effect tokens used across the UI. */
 :root {
 	--sky-top: #d6f6ff;
 	--sky-bottom: #f5fff7;
@@ -21,6 +22,7 @@
 	box-sizing: border-box;
 }
 
+/* Page-level centering and atmospheric background treatment. */
 body {
 	margin: 0;
 	min-height: 100vh;
@@ -44,8 +46,16 @@ body {
 	padding: 0.9rem 0.9rem 1.1rem;
 	box-shadow: var(--shadow-soft);
 	animation: pop-in 420ms ease-out;
+	transition: filter 220ms ease;
 }
 
+/* Visually mute and lock the board when the game has ended. */
+.game.game-disabled {
+	filter: saturate(0.85) blur(1.1px);
+	pointer-events: none;
+}
+
+/* Pollution bar shell. */
 .pollution-bar-container {
 	height: 18px;
 	border-radius: 999px;
@@ -54,6 +64,7 @@ body {
 	overflow: hidden;
 }
 
+/* Pollution fill level, animated as width changes. */
 .pollution-bar {
 	height: 100%;
 	width: 100%;
@@ -62,6 +73,7 @@ body {
 	transition: width 240ms ease;
 }
 
+/* Header row for timer and points. */
 .game-header {
 	display: flex;
 	justify-content: space-between;
@@ -73,6 +85,7 @@ body {
 	font-weight: 800;
 }
 
+/* Shared card style for timer and points displays. */
 .timer,
 .points {
 	flex: 1;
@@ -83,6 +96,7 @@ body {
 	border: 2px solid #b8d6e0;
 }
 
+/* Three-column core layout: reservoir, holes, tools. */
 .game-main {
 	margin-top: 0.95rem;
 	display: grid;
@@ -92,6 +106,7 @@ body {
 	align-items: center;
 }
 
+/* Reservoir container that hosts water fill and segment guide overlay. */
 .water-reservoir-container {
 	height: 256px;
 	border-radius: 999px;
@@ -103,8 +118,11 @@ body {
 	overflow: hidden;
 	position: relative;
 	grid-area: reservoir;
+	cursor: default;
+	transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
+/* Segment guide lines to show four equal fill levels. */
 .water-reservoir-container::before {
 	content: "";
 	position: absolute;
@@ -121,6 +139,7 @@ body {
 	);
 }
 
+/* Reservoir water fill body. */
 .water-reservoir {
 	width: 100%;
 	height: 100%;
@@ -132,6 +151,19 @@ body {
 	z-index: 1;
 }
 
+/* Reservoir visual state when it is full and clickable. */
+.water-reservoir-container.ready {
+	cursor: pointer;
+	box-shadow: 0 0 0 4px rgba(39, 168, 216, 0.2);
+	animation: reservoir-ready 900ms ease-in-out infinite alternate;
+}
+
+.water-reservoir-container.ready:hover,
+.water-reservoir-container.ready:focus-visible {
+	transform: translateY(-2px);
+}
+
+/* 2x4 grid for playable holes. */
 .holes-grid {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -140,10 +172,12 @@ body {
 	grid-area: holes;
 }
 
+/* Allow .hole items to directly participate in grid placement. */
 .hole-row {
 	display: contents;
 }
 
+/* Default hole appearance. */
 .hole,
 .hole.empty {
 	width: 100%;
@@ -160,6 +194,7 @@ body {
 	animation: reveal 480ms ease both;
 }
 
+/* Active digging highlight for shovel interaction. */
 .hole.digging {
 	border-color: #cc7f2a;
 	box-shadow:
@@ -167,6 +202,7 @@ body {
 		0 4px 0 #d0a172;
 }
 
+/* Pulse ring around a currently dug hole. */
 .hole.digging::after {
 	content: "";
 	position: absolute;
@@ -176,6 +212,7 @@ body {
 	animation: digging-pulse 920ms ease-out infinite;
 }
 
+/* "Clean" water hole look. */
 .hole.clean {
 	background:
 		radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.9) 0 14%, transparent 16%),
@@ -186,6 +223,7 @@ body {
 		0 4px 0 #72b6d0;
 }
 
+/* "Muggy" hole look before cleanup. */
 .hole.muggy {
 	background:
 		radial-gradient(circle at 35% 28%, rgba(214, 170, 124, 0.82) 0 16%, transparent 18%),
@@ -196,6 +234,7 @@ body {
 		0 4px 0 #b18861;
 }
 
+/* Staggered entrance timing for row one holes. */
 .hole-row .hole:nth-child(1) {
 	animation-delay: 80ms;
 }
@@ -212,6 +251,7 @@ body {
 	animation-delay: 230ms;
 }
 
+/* Vertical stack of tool buttons. */
 .tool-buttons {
 	display: flex;
 	flex-direction: column;
@@ -220,6 +260,7 @@ body {
 	grid-area: tools;
 }
 
+/* Shared circular tool button style. */
 .tool-button {
 	width: 84px;
 	height: 84px;
@@ -235,31 +276,116 @@ body {
 	transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
+/* Shovel button color theme. */
 #shovelButton {
 	background: linear-gradient(180deg, #ffd478, var(--button-shovel));
 }
 
+/* Extractor button color theme. */
 #extractorButton {
 	background: linear-gradient(180deg, #9be0b6, var(--button-extractor));
 }
 
+/* Lift buttons slightly on hover/focus. */
 .tool-button:hover,
 .tool-button:focus-visible {
 	transform: translateY(-2px);
 	box-shadow: 0 10px 0 rgba(18, 50, 72, 0.2);
 }
 
+/* Active tool state indicator. */
 .tool-button.active {
 	outline: 4px solid rgba(18, 50, 72, 0.18);
 	outline-offset: 3px;
 	transform: translateY(-2px);
 }
 
+/* Pressed button feedback. */
 .tool-button:active {
 	transform: translateY(2px);
 	box-shadow: 0 5px 0 rgba(18, 50, 72, 0.2);
 }
 
+/* Full-screen overlay used for end-game messages. */
+.end-screen {
+	position: fixed;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	padding: 1.1rem;
+	background: rgba(18, 50, 72, 0.42);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 220ms ease;
+	z-index: 35;
+}
+
+/* Make end screen interactive when visible. */
+.end-screen.visible {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* Content card shown in the center of the end overlay. */
+.end-screen-card {
+	width: min(100%, 420px);
+	background: linear-gradient(180deg, #f8fdff, #e8f4f9);
+	border: 3px solid #8db4c0;
+	border-radius: 22px;
+	padding: 1.2rem 1rem 1.1rem;
+	text-align: center;
+	box-shadow: 0 16px 34px rgba(10, 44, 61, 0.26);
+	animation: pop-in 280ms ease-out;
+}
+
+/* End-state headline typography. */
+.end-screen-title {
+	margin: 0;
+	font-family: "Nunito", "Verdana", sans-serif;
+	font-size: 1.6rem;
+	line-height: 1.15;
+}
+
+/* Supporting message text in the end-state card. */
+.end-screen-message {
+	margin: 0.65rem 0 0;
+	font-size: 1rem;
+	line-height: 1.35;
+	font-weight: 700;
+}
+
+/* Restart control shown on the end-state card. */
+.restart-button {
+	margin-top: 1rem;
+	width: min(220px, 100%);
+	height: 52px;
+	border-radius: 999px;
+	border: 3px solid #ffffff;
+	background: linear-gradient(180deg, #88d8f2, #2fa7d2);
+	color: #0e2a3b;
+	font-family: "Nunito", "Verdana", sans-serif;
+	font-size: 0.96rem;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	cursor: pointer;
+	box-shadow: 0 8px 0 rgba(18, 50, 72, 0.2);
+	transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+/* Restart button hover/focus behavior. */
+.restart-button:hover,
+.restart-button:focus-visible {
+	transform: translateY(-2px);
+	box-shadow: 0 10px 0 rgba(18, 50, 72, 0.2);
+}
+
+/* Restart button pressed feedback. */
+.restart-button:active {
+	transform: translateY(2px);
+	box-shadow: 0 5px 0 rgba(18, 50, 72, 0.2);
+}
+
+/* Small-screen layout adjustments. */
 @media (max-width: 640px) {
 	body {
 		align-items: flex-start;
@@ -299,6 +425,7 @@ body {
 	}
 }
 
+/* Larger-screen layout and sizing adjustments. */
 @media (min-width: 768px) {
 	body {
 		padding: 2rem;
@@ -334,6 +461,7 @@ body {
 	}
 }
 
+/* Shared card/overlay entrance animation. */
 @keyframes pop-in {
 	from {
 		opacity: 0;
@@ -345,6 +473,7 @@ body {
 	}
 }
 
+/* Hole reveal animation. */
 @keyframes reveal {
 	from {
 		opacity: 0;
@@ -356,6 +485,7 @@ body {
 	}
 }
 
+/* Gentle water motion animation for the reservoir fill. */
 @keyframes wave {
 	0%,
 	100% {
@@ -366,6 +496,7 @@ body {
 	}
 }
 
+/* Pulse animation used by the active digging indicator. */
 @keyframes digging-pulse {
 	0% {
 		opacity: 0.9;
@@ -374,5 +505,15 @@ body {
 	100% {
 		opacity: 0;
 		transform: scale(1.16);
+	}
+}
+
+/* Subtle saturation pulse when the reservoir is ready to spend. */
+@keyframes reservoir-ready {
+	from {
+		filter: saturate(1);
+	}
+	to {
+		filter: saturate(1.15);
 	}
 }

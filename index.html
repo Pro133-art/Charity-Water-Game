@@ -7,21 +7,26 @@
 	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
+	<!-- Main playable game board. -->
 	<div class="game" id="water-hole-game">
+		<!-- Top pollution progress indicator. -->
 		<div class="pollution-bar-container" id="pollutionBarContainer" aria-label="Pollution bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar">
 			<div class="pollution-bar" id="pollutionBar"></div>
 		</div>
 
+		<!-- Live timer and points bank. -->
 		<header class="game-header">
 			<div class="timer" id="timer">Timer: 00:00</div>
 			<div class="points" id="points">Points: 0</div>
 		</header>
 
 		<main class="game-main">
+			<!-- Vertical reservoir that fills in four extraction segments. -->
 			<aside class="water-reservoir-container" id="waterReservoirContainer" aria-label="Water reservoir">
 				<div class="water-reservoir" id="waterReservoir"></div>
 			</aside>
 
+			<!-- 2x4 water-hole playfield. -->
 			<section class="holes-grid" id="holesGrid" aria-label="2 by 4 hole grid">
 				<div class="hole-row">
 					<div class="hole" id="hole-1"></div>
@@ -37,12 +42,24 @@
 				</div>
 			</section>
 
+			<!-- Tool selection controls. -->
 			<aside class="tool-buttons" aria-label="Tools">
 				<button type="button" class="tool-button circular" id="shovelButton">Shovel</button>
 				<button type="button" class="tool-button circular" id="extractorButton">Extractor</button>
 			</aside>
 		</main>
 	</div>
+
+	<!-- End-state overlay shown for both win and loss outcomes. -->
+	<section class="end-screen" id="endScreen" aria-live="polite" aria-modal="true" role="dialog">
+		<div class="end-screen-card">
+			<h2 class="end-screen-title" id="endScreenTitle">Game Over</h2>
+			<p class="end-screen-message" id="endScreenMessage"></p>
+			<button type="button" class="restart-button" id="restartButton">Play Again</button>
+		</div>
+	</section>
+
+	<!-- Main game logic. -->
 	<script src="script.js"></script>
 </body>
 </html>
