@@ -93,7 +93,8 @@
 		.game-main {
 			margin-top: 0.95rem;
 			display: grid;
-			grid-template-columns: 54px 1fr 92px;
+			grid-template-columns: 54px minmax(0, 1fr) 92px;
+			grid-template-areas: "reservoir holes tools";
 			gap: 0.75rem;
 			align-items: center;
 		}
@@ -107,6 +108,24 @@
 			display: flex;
 			align-items: flex-end;
 			overflow: hidden;
+			position: relative;
+			grid-area: reservoir;
+		}
+
+		.water-reservoir-container::before {
+			content: "";
+			position: absolute;
+			inset: 6px;
+			border-radius: 999px;
+			pointer-events: none;
+			z-index: 2;
+			background: repeating-linear-gradient(
+				to top,
+				transparent 0,
+				transparent calc(25% - 1px),
+				rgba(122, 166, 181, 0.75) calc(25% - 1px),
+				rgba(122, 166, 181, 0.75) 25%
+			);
 		}
 
 		.water-reservoir {
@@ -116,24 +135,28 @@
 			background: linear-gradient(180deg, #5ac6ea, var(--water-deep));
 			box-shadow: inset 0 10px 14px rgba(255, 255, 255, 0.25);
 			animation: wave 3.2s ease-in-out infinite;
+			position: relative;
+			z-index: 1;
 		}
 
 		.holes-grid {
-			display: flex;
-			flex-direction: column;
-			gap: 0.65rem;
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			grid-template-rows: repeat(2, minmax(0, 1fr));
+			gap: 0.55rem;
+			grid-area: holes;
 		}
 
 		.hole-row {
-			display: grid;
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-			gap: 0.55rem;
+			display: contents;
 		}
 
-		.hole {
+		.hole,
+		.hole.empty {
 			width: 100%;
 			aspect-ratio: 1 / 1;
 			border-radius: 50%;
+			position: relative;
 			background:
 				radial-gradient(circle at 32% 28%, #cb8e5a 0 16%, transparent 18%),
 				radial-gradient(circle at 48% 46%, var(--mud-dark) 0 38%, #4f2d15 58%, #2b170b 100%);
@@ -142,6 +165,42 @@
 				inset 0 8px 10px rgba(0, 0, 0, 0.34),
 				0 4px 0 #c49369;
 			animation: reveal 480ms ease both;
+		}
+
+		.hole.digging {
+			border-color: #cc7f2a;
+			box-shadow:
+				inset 0 8px 10px rgba(0, 0, 0, 0.34),
+				0 4px 0 #d0a172;
+		}
+
+		.hole.digging::after {
+			content: "";
+			position: absolute;
+			inset: -5px;
+			border-radius: 50%;
+			border: 2px solid rgba(245, 180, 54, 0.75);
+			animation: digging-pulse 920ms ease-out infinite;
+		}
+
+		.hole.clean {
+			background:
+				radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.9) 0 14%, transparent 16%),
+				radial-gradient(circle at 50% 55%, #33b7e3 0 44%, #117ca8 70%, #0a5374 100%);
+			border-color: #0b6a91;
+			box-shadow:
+				inset 0 8px 10px rgba(10, 83, 116, 0.36),
+				0 4px 0 #72b6d0;
+		}
+
+		.hole.muggy {
+			background:
+				radial-gradient(circle at 35% 28%, rgba(214, 170, 124, 0.82) 0 16%, transparent 18%),
+				radial-gradient(circle at 52% 54%, #8b5c34 0 42%, #5d3a1f 68%, #3f2614 100%);
+			border-color: #5b361b;
+			box-shadow:
+				inset 0 8px 10px rgba(0, 0, 0, 0.36),
+				0 4px 0 #b18861;
 		}
 
 		.hole-row .hole:nth-child(1) {
@@ -165,6 +224,7 @@
 			flex-direction: column;
 			gap: 0.75rem;
 			align-items: center;
+			grid-area: tools;
 		}
 
 		.tool-button {
@@ -201,6 +261,45 @@
 			box-shadow: 0 5px 0 rgba(18, 50, 72, 0.2);
 		}
 
+		@media (max-width: 640px) {
+			body {
+				align-items: flex-start;
+				padding: 0.6rem;
+			}
+
+			.game {
+				padding: 0.8rem;
+			}
+
+			.game-main {
+				grid-template-columns: 46px minmax(0, 1fr);
+				grid-template-areas:
+					"reservoir holes"
+					"tools tools";
+				gap: 0.65rem;
+			}
+
+			.water-reservoir-container {
+				height: 220px;
+			}
+
+			.holes-grid {
+				gap: 0.42rem;
+			}
+
+			.tool-buttons {
+				flex-direction: row;
+				justify-content: center;
+				gap: 0.65rem;
+			}
+
+			.tool-button {
+				width: 74px;
+				height: 74px;
+				font-size: 0.82rem;
+			}
+		}
+
 		@media (min-width: 768px) {
 			body {
 				padding: 2rem;
@@ -216,7 +315,8 @@
 			}
 
 			.game-main {
-				grid-template-columns: 68px 1fr 110px;
+				grid-template-columns: 68px minmax(0, 1fr) 110px;
+				grid-template-areas: "reservoir holes tools";
 				gap: 1.35rem;
 			}
 
@@ -225,10 +325,6 @@
 			}
 
 			.holes-grid {
-				gap: 1rem;
-			}
-
-			.hole-row {
 				gap: 0.95rem;
 			}
 
@@ -268,6 +364,17 @@
 			}
 			50% {
 				transform: translateY(3px);
+			}
+		}
+
+		@keyframes digging-pulse {
+			0% {
+				opacity: 0.9;
+				transform: scale(0.86);
+			}
+			100% {
+				opacity: 0;
+				transform: scale(1.16);
 			}
 		}
 	</style>
