@@ -24,6 +24,7 @@ const CLEAN_EXTRACTION_COST = 100;
 const MUGGY_EXTRACTION_COST = 150;
 const RESERVOIR_REWARD_POINTS = 200;
 const RESERVOIR_POLLUTION_REDUCTION = 10;
+const HOLE_REDIG_DELAY_MS = 8000;
 
 // Mutable state for a single game session.
 const state = {
@@ -34,6 +35,7 @@ const state = {
 	selectedTool: "shovel",
 	activeHoleIndex: 0,
 	holeStates: Array.from({ length: holes.length }, () => "muggy"),
+	holeRespawnTimeoutIds: Array.from({ length: holes.length }, () => null),
 	reservoirSegments: 0,
 	pointsNotice: "",
 	gameStatus: "playing",
@@ -97,6 +99,26 @@ function render() {
 	renderHoles();
 }
 
+// Revert a cleaned hole back to muggy after a short cooldown.
+function scheduleHoleRedig(index) {
+	const existingTimeoutId = state.holeRespawnTimeoutIds[index];
+
+	if (existingTimeoutId !== null) {
+		window.clearTimeout(existingTimeoutId);
+	}
+
+	state.holeRespawnTimeoutIds[index] = window.setTimeout(() => {
+		state.holeRespawnTimeoutIds[index] = null;
+
+		if (state.gameStatus !== "playing" || state.holeStates[index] !== "clean") {
+			return;
+		}
+
+		state.holeStates[index] = "muggy";
+		render();
+	}, HOLE_REDIG_DELAY_MS);
+}
+
 // Stop gameplay and reveal end-game overlay for win/loss states.
 function endGame(status, message) {
 	if (state.gameStatus !== "playing") {
@@ -109,6 +131,15 @@ function endGame(status, message) {
 		window.clearInterval(state.intervalId);
 		state.intervalId = null;
 	}
+
+	state.holeRespawnTimeoutIds.forEach((timeoutId, index) => {
+		if (timeoutId === null) {
+			return;
+		}
+
+		window.clearTimeout(timeoutId);
+		state.holeRespawnTimeoutIds[index] = null;
+	});
 
 	endScreenTitle.textContent = status === "won" ? "Mission Accomplished" : "Game Over";
 	endScreenMessage.textContent = message;
@@ -137,7 +168,7 @@ function checkEndConditions() {
 	}
 }
 
-// Shovel action: clean muggy holes, reduce pollution, and reward points.
+// Shovel action: clean muggy holes and reward points.
 function digHole(index) {
 	if (state.gameStatus !== "playing") {
 		return;
@@ -149,6 +180,7 @@ function digHole(index) {
 	if (state.holeStates[index] === "muggy") {
 		state.holeStates[index] = "clean";
 		state.points += 12;
+		scheduleHoleRedig(index);
 	}
 
 	render();
@@ -208,7 +240,7 @@ function spendReservoirWater() {
 	checkEndConditions();
 }
 
-// One-second game loop tick: countdown time and apply passive pollution pressure.
+// One-second game loop tick: countdown time.
 function tick() {
 	if (state.gameStatus !== "playing") {
 		return;
