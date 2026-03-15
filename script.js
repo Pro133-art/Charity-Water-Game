@@ -148,7 +148,6 @@ function digHole(index) {
 
 	if (state.holeStates[index] === "muggy") {
 		state.holeStates[index] = "clean";
-		//state.pollution = clamp(state.pollution - 8);
 		state.points += 12;
 	}
 
@@ -216,7 +215,6 @@ function tick() {
 	}
 
 	state.secondsRemaining = Math.max(0, state.secondsRemaining - 1);
-	//state.pollution = clamp(state.pollution - 0.35);
 	render();
 	checkEndConditions();
 }
