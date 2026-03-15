@@ -148,7 +148,7 @@ function digHole(index) {
 
 	if (state.holeStates[index] === "muggy") {
 		state.holeStates[index] = "clean";
-		state.pollution = clamp(state.pollution - 8);
+		//state.pollution = clamp(state.pollution - 8);
 		state.points += 12;
 	}
 
