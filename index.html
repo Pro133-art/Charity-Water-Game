@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Water Hole</title>
+	<title>Water Hole — A charity: water Game</title>
 	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,6 +15,7 @@
 				<p class="brand-kicker">Clean Water Challenge</p>
 				<h1 class="brand-title">Water Hole</h1>
 			</div>
+			<a class="cw-corner-badge" href="https://www.charitywater.org" target="_blank" rel="noopener noreferrer" aria-label="charity: water">charity: water</a>
 		</header>
 
 		<!-- Top pollution progress indicator. -->
@@ -93,8 +94,14 @@
 			<h2 class="end-screen-title" id="endScreenTitle">Game Over</h2>
 			<p class="end-screen-message" id="endScreenMessage"></p>
 			<button type="button" class="restart-button" id="restartButton">Play Again</button>
+			<a class="cw-donate-btn" id="cwDonateBtn" href="https://www.charitywater.org/donate" target="_blank" rel="noopener noreferrer" hidden>Support charity: water →</a>
 		</div>
 	</section>
+
+	<!-- Charity: Water footer attribution. -->
+	<footer class="cw-footer">
+		<p>A game for <a class="cw-footer-link" href="https://www.charitywater.org" target="_blank" rel="noopener noreferrer">charity: water</a> — clean water for everyone.</p>
+	</footer>
 
 	<!-- Main game logic. -->
 	<script src="script.js"></script>

@@ -12,6 +12,7 @@ const endScreen = document.getElementById("endScreen");
 const endScreenTitle = document.getElementById("endScreenTitle");
 const endScreenMessage = document.getElementById("endScreenMessage");
 const restartButton = document.getElementById("restartButton");
+const cwDonateBtn = document.getElementById("cwDonateBtn");
 const holes = Array.from(document.querySelectorAll(".hole"));
 
 // Core limits and gameplay tuning values.
@@ -143,6 +144,9 @@ function endGame(status, message) {
 
 	endScreenTitle.textContent = status === "won" ? "Mission Accomplished" : "Game Over";
 	endScreenMessage.textContent = message;
+	if (status === "won") {
+		cwDonateBtn.removeAttribute("hidden");
+	}
 	endScreen.classList.add("visible");
 	gameContainer.classList.add("game-disabled");
 }

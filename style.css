@@ -17,6 +17,7 @@
 	--button-shovel: #f5b436;
 	--button-extractor: #57c586;
 	--shadow-soft: 0 10px 24px rgba(18, 50, 72, 0.15);
+	--cw-yellow: #ffc907;
 }
 
 * {
@@ -63,6 +64,7 @@ body {
 		linear-gradient(145deg, rgba(255, 213, 107, 0.2), rgba(255, 213, 107, 0) 45%),
 		linear-gradient(180deg, #f9feff, #eef9fc);
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	position: relative;
 }
 
 .brand-logo {
@@ -614,6 +616,99 @@ body {
 	.tool-label {
 		font-size: 0.72rem;
 	}
+}
+
+/* Charity: Water inline brand badge inside the header kicker. */
+.cw-inline {
+	display: inline-block;
+	background: var(--cw-yellow);
+	color: #0f2a3d;
+	padding: 0.05em 0.35em;
+	border-radius: 5px;
+	font-weight: 800;
+	letter-spacing: 0.01em;
+	text-transform: none;
+}
+
+/* charity: water badge pinned to the upper-right of the header banner. */
+.cw-corner-badge {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.6rem;
+	background: var(--cw-yellow);
+	color: #0f2a3d;
+	font-family: "Nunito", "Verdana", sans-serif;
+	font-size: 0.92rem;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	text-decoration: none;
+	padding: 0.28em 0.75em;
+	border-radius: 999px;
+	white-space: nowrap;
+	transition: opacity 150ms ease;
+}
+
+.cw-corner-badge:hover,
+.cw-corner-badge:focus-visible {
+	opacity: 0.82;
+}
+
+/* Donate CTA shown on the win end-screen. */
+.cw-donate-btn {
+	display: block;
+	margin: 0.65rem auto 0;
+	width: min(220px, 100%);
+	height: 52px;
+	line-height: 52px;
+	border-radius: 999px;
+	border: 3px solid rgba(255, 255, 255, 0.55);
+	background: var(--cw-yellow);
+	color: #0f2a3d;
+	font-family: "Nunito", "Verdana", sans-serif;
+	font-size: 0.92rem;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	box-shadow: 0 8px 0 rgba(18, 50, 72, 0.18);
+	transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.cw-donate-btn:hover,
+.cw-donate-btn:focus-visible {
+	transform: translateY(-2px);
+	box-shadow: 0 10px 0 rgba(18, 50, 72, 0.18);
+}
+
+.cw-donate-btn:active {
+	transform: translateY(2px);
+	box-shadow: 0 5px 0 rgba(18, 50, 72, 0.18);
+}
+
+/* Footer attribution below the game card. */
+.cw-footer {
+	margin-top: 0.6rem;
+	text-align: center;
+	font-family: "Nunito", "Verdana", sans-serif;
+	font-size: 0.78rem;
+	font-weight: 700;
+	color: rgba(18, 50, 72, 0.55);
+}
+
+.cw-footer p {
+	margin: 0;
+}
+
+.cw-footer-link {
+	color: #0e6a9e;
+	font-weight: 800;
+	text-decoration: none;
+}
+
+.cw-footer-link:hover,
+.cw-footer-link:focus-visible {
+	text-decoration: underline;
 }
 
 /* Shared card/overlay entrance animation. */
