@@ -635,6 +635,9 @@ body {
 	position: absolute;
 	top: 0.5rem;
 	right: 0.6rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
 	background: var(--cw-yellow);
 	color: #0f2a3d;
 	font-family: "Nunito", "Verdana", sans-serif;
@@ -642,10 +645,16 @@ body {
 	font-weight: 800;
 	letter-spacing: 0.04em;
 	text-decoration: none;
-	padding: 0.28em 0.75em;
+	padding: 0.28em 0.75em 0.28em 0.45em;
 	border-radius: 999px;
 	white-space: nowrap;
 	transition: opacity 150ms ease;
+}
+
+.cw-drop-icon {
+	width: 1.1em;
+	height: 1.375em;
+	flex: 0 0 auto;
 }
 
 .cw-corner-badge:hover,
