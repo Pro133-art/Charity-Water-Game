@@ -23,7 +23,7 @@ const RESERVOIR_SEGMENTS = 4;
 const CLEAN_EXTRACTION_COST = 100;
 const MUGGY_EXTRACTION_COST = 150;
 const RESERVOIR_REWARD_POINTS = 200;
-const RESERVOIR_POLLUTION_REDUCTION = 10;
+const RESERVOIR_POLLUTION_REDUCTION_AMOUNT = 40;
 const HOLE_REDIG_DELAY_MS = 8000;
 
 // Mutable state for a single game session.
@@ -197,7 +197,7 @@ function extractWater(index) {
 
 	// Prevent overfilling and prompt the player to spend the full reservoir.
 	if (state.reservoirSegments >= RESERVOIR_SEGMENTS) {
-		state.pointsNotice = "Reservoir Full: Click it to purify (-10% pollution, +200 points)";
+		state.pointsNotice = `Reservoir Full: Click it to purify (-${RESERVOIR_POLLUTION_REDUCTION_AMOUNT} pollution, +${RESERVOIR_REWARD_POINTS} points)`;
 		render();
 		return;
 	}
@@ -232,10 +232,10 @@ function spendReservoirWater() {
 		return;
 	}
 
-	state.pollution = clamp(state.pollution * (1 - RESERVOIR_POLLUTION_REDUCTION / 100));
+	state.pollution = clamp(state.pollution - RESERVOIR_POLLUTION_REDUCTION_AMOUNT);
 	state.points += RESERVOIR_REWARD_POINTS;
 	state.reservoirSegments = 0;
-	state.pointsNotice = `Reservoir Purify Reward: +${RESERVOIR_REWARD_POINTS}`;
+	state.pointsNotice = `Reservoir Purify Reward: -${RESERVOIR_POLLUTION_REDUCTION_AMOUNT} pollution, +${RESERVOIR_REWARD_POINTS} points`;
 	render();
 	checkEndConditions();
 }
