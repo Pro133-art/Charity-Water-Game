@@ -9,6 +9,14 @@
 <body>
 	<!-- Main playable game board. -->
 	<div class="game" id="water-hole-game">
+		<header class="brand-banner" aria-label="Water Hole game branding">
+			<img class="brand-logo" src="assets/water-hole-logo.svg" alt="Water Hole logo" />
+			<div class="brand-copy">
+				<p class="brand-kicker">Clean Water Challenge</p>
+				<h1 class="brand-title">Water Hole</h1>
+			</div>
+		</header>
+
 		<!-- Top pollution progress indicator. -->
 		<div class="pollution-bar-container" id="pollutionBarContainer" aria-label="Pollution bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar">
 			<div class="pollution-bar" id="pollutionBar"></div>
@@ -44,8 +52,34 @@
 
 			<!-- Tool selection controls. -->
 			<aside class="tool-buttons" aria-label="Tools">
-				<button type="button" class="tool-button circular" id="shovelButton">Shovel</button>
-				<button type="button" class="tool-button circular" id="extractorButton">Extractor</button>
+				<button type="button" class="tool-button circular" id="shovelButton">
+					<span class="tool-icon" aria-hidden="true">
+						<svg viewBox="0 0 64 64" focusable="false">
+							<g transform="rotate(-18 32 32)">
+								<path d="M24 10C24 6.68629 26.6863 4 30 4H34C37.3137 4 40 6.68629 40 10V15H24V10Z" fill="#FFF3C6" stroke="#0F2A3D" stroke-width="3" stroke-linejoin="round"/>
+								<path d="M32 15V38" stroke="#0F2A3D" stroke-width="5" stroke-linecap="round"/>
+								<path d="M24 38H40V45C40 53.8366 32.8366 61 24 61H24V38Z" fill="#8E5931" stroke="#0F2A3D" stroke-width="3" stroke-linejoin="round"/>
+								<path d="M40 38H24V45C24 53.8366 31.1634 61 40 61H40V38Z" fill="#A46B3A" stroke="#0F2A3D" stroke-width="3" stroke-linejoin="round"/>
+								<path d="M28 46C30.5 49 33.5 51.5 37.5 53.5" stroke="#D7A67B" stroke-width="3" stroke-linecap="round"/>
+							</g>
+						</svg>
+					</span>
+					<span class="tool-label">Shovel</span>
+				</button>
+				<button type="button" class="tool-button circular" id="extractorButton">
+					<span class="tool-icon" aria-hidden="true">
+						<svg viewBox="0 0 64 64" focusable="false">
+							<path d="M20 14H44V21C44 24.3137 41.3137 27 38 27H26C22.6863 27 20 24.3137 20 21V14Z" fill="#D5FFF0" stroke="#0F2A3D" stroke-width="3" stroke-linejoin="round"/>
+							<path d="M28 27H36V36H28V27Z" fill="#F6FFF9" stroke="#0F2A3D" stroke-width="3" stroke-linejoin="round"/>
+							<path d="M24 36H40V54C40 57.3137 37.3137 60 34 60H30C26.6863 60 24 57.3137 24 54V36Z" fill="#B4F0CC" stroke="#0F2A3D" stroke-width="3" stroke-linejoin="round"/>
+							<path d="M32 41C35.866 45.0548 38 48.423 38 51C38 54.3137 35.3137 57 32 57C28.6863 57 26 54.3137 26 51C26 48.423 28.134 45.0548 32 41Z" fill="#27A8D8" stroke="#0F2A3D" stroke-width="3" stroke-linejoin="round"/>
+							<path d="M44 18H52C55.3137 18 58 20.6863 58 24V31" stroke="#0F2A3D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+							<path d="M52 31L48 27" stroke="#0F2A3D" stroke-width="3" stroke-linecap="round"/>
+							<path d="M52 31L56 27" stroke="#0F2A3D" stroke-width="3" stroke-linecap="round"/>
+						</svg>
+					</span>
+					<span class="tool-label">Extractor</span>
+				</button>
 			</aside>
 		</main>
 	</div>
